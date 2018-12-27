@@ -1,0 +1,119 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
+
+android {
+    compileSdkVersion 27
+    buildToolsVersion '27.0.3'
+    defaultConfig {
+        applicationId "com.vincent.cloud"
+        minSdkVersion 15
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+
+    signingConfigs {
+
+        debug {
+            storeFile file("../CCloud.jks")
+            storePassword '444444'
+            keyAlias '日昱物流客户端'
+            keyPassword '444444'
+        }
+
+        release {
+            //SHA1: 4A2FD3626FFED787BB9D9C11FF0443914F0CD3F0
+            //      409E5F60CD8EB4F00F5C5BE63A70A29E
+            storeFile file("../CCloud.jks")
+            storePassword '444444'
+            keyAlias '日昱物流客户端'
+            keyPassword '444444'
+        }
+    }
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.release
+            //启用代码混淆
+            minifyEnabled true
+            //zip压缩
+            zipAlignEnabled true
+            //移除无用的resource文件
+            shrinkResources true
+            //混淆规则配置文件
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        release {
+            signingConfig signingConfigs.release
+            //开启混淆
+            minifyEnabled true
+            zipAlignEnabled true
+            //移除无用的resource文件
+            shrinkResources true
+
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+    }
+
+    //配置自定义打包名称
+   /* applicationVariants.all { variant ->
+        variant.outputs.all {
+            def fileName
+            def date = new Date()
+            def formattedDateDebug = date.format('yyyyMMdd')
+            def formattedDate = date.format('yyyyMMddHHmmss')
+            if (variant.buildType.name.equals('release')) {
+                fileName = "城昱"+"${variant.mergedFlavor.versionName}_release_${formattedDate}.apk"
+            } else if (variant.buildType.name.equals('debug')) {
+                fileName = "城昱"+"${variant.mergedFlavor.versionName}_debug_${formattedDateDebug}.apk"
+            }
+            outputFileName = fileName;
+        }
+    }*/
+
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:27.1.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    testCompile 'junit:junit:4.12'
+    compile files('libs/mta-sdk-1.6.2.jar')
+    compile files('libs/open_sdk_r5793_lite.jar')
+    compile 'com.alibaba:fastjson:1.1.56.android'
+    compile 'com.vise.xiaoyaoyou:viselog:1.0.0'
+    compile 'com.github.bumptech.glide:glide:4.0.0-RC1'
+    /**
+     *  微信登录分享支付等。。
+     */
+//    compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
+    compile 'com.zhy:okhttputils:2.6.2'
+    /**
+     *  新浪微博登录
+     */
+    compile 'com.sina.weibo.sdk:core:2.0.3:openDefaultRelease@aar'
+    compile files('libs/wechat-sdk-android-with-mta-1.3.4.jar')
+
+    /**
+     * FaceBook登陆
+     */
+    implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
+
+    /**
+     * Google + 客户端id:51969890975-hies4ihocg4hkj5utpc5e9bnji961hbk.apps.googleusercontent.com
+     */
+    implementation 'com.google.firebase:firebase-core:16.0.5'
+    implementation 'com.google.firebase:firebase-auth:16.0.5'
+    implementation 'com.google.android.gms:play-services-auth:16.0.1'
+
+    /**
+     * Twitter 登录
+     */
+    implementation 'com.twitter.sdk.android:twitter:3.1.1'
+}
